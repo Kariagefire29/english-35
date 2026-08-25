@@ -1,26 +1,479 @@
-<!doctype html><html lang="ja"><head><link rel="apple-touch-icon" href="IMG_8536.jpeg">
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="英語35"><meta name="theme-color" content="#2563eb"><title>英語35</title>
-<style>*{box-sizing:border-box}body{margin:0;background:#f5f7fb;color:#111827;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.app{max-width:700px;margin:auto;padding:18px 14px 40px}h1{text-align:center;font-size:24px;margin:6px}.sub{text-align:center;color:#6b7280;font-size:13px;margin-bottom:15px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:9px 0}button,select{font:inherit;border:1px solid #e5e7eb;border-radius:13px;background:#fff;padding:13px;font-weight:800;width:100%}.active,.blue{background:#2563eb;color:#fff;border-color:#2563eb}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}.stat{background:#fff;border:1px solid #e5e7eb;border-radius:12px;text-align:center;padding:9px}.stat b{display:block;font-size:19px}.stat span,.small{font-size:11px;color:#6b7280}.bar{height:8px;background:#e5e7eb;border-radius:99px;overflow:hidden;margin:8px 0 15px}.bar div{height:100%;background:#2563eb}.card{min-height:345px;background:#fff;border:1px solid #e5e7eb;border-radius:20px;padding:22px 18px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}.count{font-size:13px;color:#6b7280;margin-bottom:15px}.q{font-size:clamp(25px,7vw,39px);font-weight:850;line-height:1.35}.example{font-size:clamp(16px,4.4vw,21px);line-height:1.45;color:#4b5563;margin-top:18px}.ans{display:none;width:100%;border-top:1px solid #e5e7eb;margin-top:22px;padding-top:18px}.ans.show{display:block}.answerMain{font-size:clamp(20px,5.5vw,29px);font-weight:800}.answerEx{font-size:clamp(16px,4.4vw,21px);color:#4b5563;margin-top:13px;line-height:1.45}.rhythm{margin-top:12px;padding:17px;font-size:20px;background:#2563eb;color:#fff;border-color:#2563eb}.green{background:#16a34a;color:#fff}.red{background:#dc2626;color:#fff}#judge,#quiz{display:none}.choices{display:grid;gap:9px;margin-top:12px}.choice{text-align:left}.correct{outline:3px solid #86efac}.wrong{outline:3px solid #fca5a5}.small{text-align:center;margin-top:14px}</style></head>
-<body><main class="app"><h1>英会話35パターン暗記</h1><div class="sub">同じボタンをポンポン押して進める</div>
-<div class="grid"><button id="flashTab" class="active">📚 暗記カード</button><button id="quizTab">🧠 4択クイズ</button></div>
-<div class="grid"><select id="direction"><option value="en-ja">英語 → 日本語</option><option value="ja-en">日本語 → 英語</option></select><button id="shuffle">🔀 完全シャッフル</button></div>
-<div class="stats"><div class="stat"><b id="learned">0</b><span>覚えた</span></div><div class="stat"><b id="remain">35</b><span>未習得</span></div><div class="stat"><b id="rate">0%</b><span>習得率</span></div></div><div class="bar"><div id="bar"></div></div>
-<section id="flash"><div class="card"><div class="count" id="count"></div><div class="q" id="question"></div><div class="example" id="example"></div><div class="ans" id="answerBox"><div class="answerMain" id="answer"></div><div class="answerEx" id="answerExample"></div></div></div>
+<!doctype html>
+<html lang="ja">
+<head>
+<link rel="apple-touch-icon" href="IMG_8536.jpeg">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="ミラクル英語35">
+<meta name="theme-color" content="#2563eb">
+<title>ミラクル英語35</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;background:#f5f7fb;color:#111827;
+ font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif
+}
+.app{max-width:700px;margin:auto;padding:18px 14px 40px}
+h1{text-align:center;font-size:24px;margin:6px}
+.sub{text-align:center;color:#6b7280;font-size:13px;margin-bottom:15px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:9px 0}
+
+button,select{
+ font:inherit;border:1px solid #e5e7eb;border-radius:13px;
+ background:#fff;padding:13px;font-weight:800;width:100%
+}
+.active,.blue{background:#2563eb;color:#fff;border-color:#2563eb}
+
+.stats{
+ display:grid;grid-template-columns:repeat(3,1fr);
+ gap:8px;margin:10px 0
+}
+.stat{
+ background:#fff;border:1px solid #e5e7eb;
+ border-radius:12px;text-align:center;padding:9px
+}
+.stat b{display:block;font-size:19px}
+.stat span,.small{font-size:11px;color:#6b7280}
+
+.bar{
+ height:8px;background:#e5e7eb;border-radius:99px;
+ overflow:hidden;margin:8px 0 15px
+}
+.bar div{height:100%;background:#2563eb}
+
+.card{
+ min-height:345px;background:#fff;border:1px solid #e5e7eb;
+ border-radius:20px;padding:22px 18px;
+ display:flex;flex-direction:column;justify-content:center;
+ align-items:center;text-align:center
+}
+.count{font-size:13px;color:#6b7280;margin-bottom:15px}
+.q{font-size:clamp(25px,7vw,39px);font-weight:850;line-height:1.35}
+
+.example{
+ font-size:clamp(16px,4.4vw,21px);
+ line-height:1.45;color:#4b5563;margin-top:18px
+}
+
+.ans{
+ display:none;width:100%;border-top:1px solid #e5e7eb;
+ margin-top:22px;padding-top:18px
+}
+.ans.show{display:block}
+.answerMain{font-size:clamp(20px,5.5vw,29px);font-weight:800}
+.answerEx{
+ font-size:clamp(16px,4.4vw,21px);
+ color:#4b5563;margin-top:13px;line-height:1.45
+}
+
+.rhythm{
+ margin-top:12px;padding:17px;font-size:20px;
+ background:#2563eb;color:#fff;border-color:#2563eb
+}
+.green{background:#16a34a;color:#fff}
+.red{background:#dc2626;color:#fff}
+
+#judge,#quiz{display:none}
+.choices{display:grid;gap:9px;margin-top:12px}
+.choice{text-align:left}
+.correct{outline:3px solid #86efac}
+.wrong{outline:3px solid #fca5a5}
+.small{text-align:center;margin-top:14px}
+</style>
+</head>
+
+<body>
+<main class="app">
+
+<h1>ミラクル英語35</h1>
+<div class="sub">同じボタンをポンポン押して進める</div>
+
+<div class="grid">
+<button id="flashTab" class="active">📚 暗記カード</button>
+<button id="quizTab">🧠 4択クイズ</button>
+</div>
+
+<div class="grid">
+<select id="direction">
+<option value="en-ja">英語 → 日本語</option>
+<option value="ja-en">日本語 → 英語</option>
+</select>
+<button id="shuffle">🔀 完全シャッフル</button>
+</div>
+
+<div class="stats">
+<div class="stat"><b id="learned">0</b><span>覚えた</span></div>
+<div class="stat"><b id="remain">35</b><span>未習得</span></div>
+<div class="stat"><b id="rate">0%</b><span>習得率</span></div>
+</div>
+
+<div class="bar"><div id="bar"></div></div>
+
+<section id="flash">
+
+<div class="card">
+<div class="count" id="count"></div>
+<div class="q" id="question"></div>
+<div class="example" id="example"></div>
+
+<div class="ans" id="answerBox">
+<div class="answerMain" id="answer"></div>
+<div class="answerEx" id="answerExample"></div>
+</div>
+</div>
+
 <button class="rhythm" id="rhythm">答えを見る</button>
-<div class="grid" id="judge"><button class="red" id="again">まだ</button><button class="green" id="know">覚えた</button></div>
-<div class="grid"><button id="prev">← 前</button><button id="speak">🔊 英語を聞く</button></div></section>
-<section id="quiz"><div class="card" style="min-height:230px"><div class="count" id="quizCount"></div><div class="q" id="quizQuestion"></div><div class="example" id="quizExample"></div></div><div class="choices" id="choices"></div><div class="grid"><button id="newQuiz">次の問題</button><button id="quizSpeak">🔊 英語を聞く</button></div><div class="small" id="quizScore"></div></section>
-<div class="small">学習状況とクイズ成績はSafariに保存されます</div></main><script>
-const cards=[["I want to do", "～したい", "I want to watch a movie tonight.", "今夜、映画を見たい。"], ["I don’t want to do", "～したくない", "I don't want to go out today.", "今日は外出したくない。"], ["I’m going to do", "～するつもり／～する予定", "I'm going to study English tonight.", "今夜、英語を勉強するつもりです。"], ["I’m not going to do", "～するつもりはない", "I'm not going to buy it.", "それを買うつもりはありません。"], ["I’ve gotta do / I have to do", "～しなければならない", "I've gotta get up early tomorrow.", "明日は早く起きなければならない。"], ["I think (that) 文", "～だと思う", "I think he's right.", "彼は正しいと思う。"], ["I don’t think (that) 文", "～だとは思わない", "I don't think it's expensive.", "それは高いとは思わない。"], ["I feel like 文", "～な気がする", "I feel like it's going to rain.", "雨が降りそうな気がする。"], ["I don’t know if 文", "～かどうかわからない", "I don't know if he's coming.", "彼が来るかどうかわからない。"], ["文, but 文", "～だけど、～", "I'm tired, but I want to go.", "疲れているけど、行きたい。"], ["文, and 文", "～、そして～", "I got home, and I took a shower.", "家に帰って、シャワーを浴びた。"], ["文, and then 文", "～、それから～", "I ate dinner, and then I watched TV.", "夕食を食べて、それからテレビを見た。"], ["文, so 文", "～、だから～", "I was tired, so I went to bed.", "疲れていたので、寝た。"], ["So, 文", "だから、～", "So, I decided to stay home.", "だから、家にいることにした。"], ["文 once 文 / Once 文, 文", "～したら／いったん～すると", "Once I get home, I'll call you.", "家に着いたら、電話するよ。"], ["文 when 文 / When 文, 文", "～するとき", "Call me when you get home.", "家に着いたら電話して。"], ["文 because 文 / Because 文, 文", "～だから／～なので", "I stayed home because it was raining.", "雨が降っていたので家にいた。"], ["文 until / till 文", "～するまで", "I'll wait until you come back.", "あなたが戻るまで待つよ。"], ["文 if 文 / If 文, 文", "もし～なら", "If it rains, I'll stay home.", "もし雨が降ったら、家にいるよ。"], ["I would do if 過去形 / If 過去形, I would do", "もし～なら、～するのに", "If I had more time, I would travel.", "もっと時間があれば、旅行するのに。"], ["I would say (that) 文", "～だと思う／～と言えるかな", "I would say it's pretty good.", "かなりいいと思うよ。"], ["I would do", "～するだろう／～するのにな", "I would choose this one.", "私ならこれを選ぶよ。"], ["let A do", "Aに～させる", "Let me help you.", "私に手伝わせて。"], ["make A do / 形容詞 / 過去分詞", "Aに～させる／Aを～の状態にする", "That movie made me cry.", "その映画を見て泣いた。"], ["have A do / 形容詞 / 過去分詞 / doing", "Aに～してもらう／Aを～の状態にする", "I'll have him call you.", "彼にあなたへ電話してもらいます。"], ["get A to do / 形容詞 / 過去分詞 / doing", "Aに～してもらう／Aを～の状態にする", "I got him to help me.", "彼に手伝ってもらった。"], ["see A do / doing / 形容詞 / 過去分詞", "Aが～するのを見る／Aが～しているのを見る", "I saw him cross the street.", "彼が通りを渡るのを見た。"], ["what + 主語 + 動詞 / 動詞 / is + 形容詞", "～すること／もの", "I know what you mean.", "あなたの言いたいことはわかる。"], ["A that + (主語) + 動詞", "（～する）A", "This is the book that I bought.", "これは私が買った本です。"], ["文, which + (主語) + 動詞", "～、そしてそれは…／～、そのことは…", "He was late, which surprised me.", "彼は遅刻した。それには驚いた。"], ["you know", "ほら／あのさ／わかるでしょ", "It's hard, you know.", "難しいんだよ、わかるでしょ。"], ["like", "～みたいな／例えば", "I like sports, like baseball.", "野球みたいなスポーツが好きです。"], ["It’s like + 名詞 / , 文", "～みたいなもの／なんていうか～", "It's like a dream.", "夢みたいだ。"], ["I’m like, 文", "私は「～」って感じで／「～」って思って", "I'm like, \"No way!\"", "私は「まさか！」って感じだった。"], ["I mean, 文", "つまり／というか／要するに", "I mean, it's not that bad.", "つまり、そこまで悪くないよ。"]];let order=[...Array(35).keys()],pos=0,revealed=false,learned=new Set(JSON.parse(localStorage.getItem("e35learned")||"[]")),qc=Number(localStorage.getItem("e35qc")||0),qt=Number(localStorage.getItem("e35qt")||0),qa=0,locked=false;const $=x=>document.getElementById(x);
-function stats(){$("learned").textContent=learned.size;$("remain").textContent=35-learned.size;let p=Math.round(learned.size/35*100);$("rate").textContent=p+"%";$("bar").style.width=p+"%"}
-function render(){let i=order[pos],d=$("direction").value;revealed=false;$("count").textContent=(pos+1)+" / 35"+(learned.has(i)?" ・ 習得済み":"");$("question").textContent=d==="en-ja"?cards[i][0]:cards[i][1];$("example").textContent=d==="en-ja"?cards[i][2]:cards[i][3];$("answer").textContent=d==="en-ja"?cards[i][1]:cards[i][0];$("answerExample").textContent=d==="en-ja"?cards[i][3]:cards[i][2];$("answerBox").classList.remove("show");$("rhythm").textContent="答えを見る";$("judge").style.display="none"}
-function rhythm(){if(!revealed){revealed=true;$("answerBox").classList.add("show");$("rhythm").textContent="次へ →";$("judge").style.display="grid"}else next()}
-function next(){pos=(pos+1)%35;render()}function prev(){pos=(pos+34)%35;render()}function shuffle(){for(let i=34;i>0;i--){let j=Math.floor(Math.random()*(i+1));[order[i],order[j]]=[order[j],order[i]]}pos=0;render()}
-function mark(v){let i=order[pos];v?learned.add(i):learned.delete(i);localStorage.setItem("e35learned",JSON.stringify([...learned]));stats()}
-function speak(i){if(!("speechSynthesis" in window))return;let u=new SpeechSynthesisUtterance(cards[i][2]);u.lang="en-US";speechSynthesis.cancel();speechSynthesis.speak(u)}
-function quiz(){locked=false;qa=Math.floor(Math.random()*35);let d=$("direction").value;$("quizQuestion").textContent=d==="en-ja"?cards[qa][0]:cards[qa][1];$("quizExample").textContent=d==="en-ja"?cards[qa][2]:cards[qa][3];$("quizCount").textContent="4択 ・ "+(d==="en-ja"?"英語 → 日本語":"日本語 → 英語");let p=[...Array(35).keys()].filter(x=>x!==qa).sort(()=>Math.random()-.5),o=[qa,...p.slice(0,3)].sort(()=>Math.random()-.5);$("choices").innerHTML="";o.forEach(i=>{let b=document.createElement("button");b.className="choice";b.textContent=d==="en-ja"?cards[i][1]:cards[i][0];b.onclick=()=>check(i,b);$("choices").appendChild(b)});score()}
-function check(i,b){if(locked)return;locked=true;qt++;if(i===qa){qc++;b.classList.add("correct");learned.add(i);localStorage.setItem("e35learned",JSON.stringify([...learned]));stats()}else{b.classList.add("wrong");[...$("choices").children].forEach(x=>{let c=$("direction").value==="en-ja"?cards[qa][1]:cards[qa][0];if(x.textContent===c)x.classList.add("correct")})}localStorage.setItem("e35qc",qc);localStorage.setItem("e35qt",qt);score()}
-function score(){$("quizScore").textContent="クイズ成績："+qc+" / "+qt+" 正解"+(qt?"（"+Math.round(qc/qt*100)+"%）":"")}
-$("rhythm").onclick=rhythm;$("prev").onclick=prev;$("shuffle").onclick=shuffle;$("know").onclick=()=>mark(true);$("again").onclick=()=>mark(false);$("direction").onchange=()=>{render();if($("quiz").style.display==="block")quiz()};$("speak").onclick=()=>speak(order[pos]);$("quizSpeak").onclick=()=>speak(qa);$("flashTab").onclick=()=>{$("flash").style.display="block";$("quiz").style.display="none";$("flashTab").classList.add("active");$("quizTab").classList.remove("active")};$("quizTab").onclick=()=>{$("flash").style.display="none";$("quiz").style.display="block";$("quizTab").classList.add("active");$("flashTab").classList.remove("active");quiz()};$("newQuiz").onclick=quiz;stats();render();score();
-</script></body></html>
+
+<div class="grid" id="judge">
+<button class="red" id="again">まだ</button>
+<button class="green" id="know">覚えた</button>
+</div>
+
+<div class="grid">
+<button id="prev">← 前</button>
+<button id="speak">🔊 英語を聞く</button>
+</div>
+
+</section>
+
+<section id="quiz">
+
+<div class="card" style="min-height:230px">
+<div class="count" id="quizCount"></div>
+<div class="q" id="quizQuestion"></div>
+<div class="example" id="quizExample"></div>
+</div>
+
+<div class="choices" id="choices"></div>
+
+<div class="grid">
+<button id="newQuiz">次の問題</button>
+<button id="quizSpeak">🔊 英語を聞く</button>
+</div>
+
+<div class="small" id="quizScore"></div>
+
+</section>
+
+<div class="small">
+学習状況とクイズ成績はSafariに保存されます
+</div>
+
+</main>
+
+<script>
+
+const cards=[
+["I want to do","～したい","I want to watch a movie tonight.","今夜、映画を見たい。"],
+["I don’t want to do","～したくない","I don't want to go out today.","今日は外出したくない。"],
+["I’m going to do","～するつもり／～する予定","I'm going to study English tonight.","今夜、英語を勉強するつもりです。"],
+["I’m not going to do","～するつもりはない","I'm not going to buy it.","それを買うつもりはありません。"],
+["I’ve gotta do / I have to do","～しなければならない","I've gotta get up early tomorrow.","明日は早く起きなければならない。"],
+["I think (that) 文","～だと思う","I think he's right.","彼は正しいと思う。"],
+["I don’t think (that) 文","～だとは思わない","I don't think it's expensive.","それは高いとは思わない。"],
+["I feel like 文","～な気がする","I feel like it's going to rain.","雨が降りそうな気がする。"],
+["I don’t know if 文","～かどうかわからない","I don't know if he's coming.","彼が来るかどうかわからない。"],
+["文, but 文","～だけど、～","I'm tired, but I want to go.","疲れているけど、行きたい。"],
+["文, and 文","～、そして～","I got home, and I took a shower.","家に帰って、シャワーを浴びた。"],
+["文, and then 文","～、それから～","I ate dinner, and then I watched TV.","夕食を食べて、それからテレビを見た。"],
+["文, so 文","～、だから～","I was tired, so I went to bed.","疲れていたので、寝た。"],
+["So, 文","だから、～","So, I decided to stay home.","だから、家にいることにした。"],
+["文 once 文 / Once 文, 文","～したら／いったん～すると","Once I get home, I'll call you.","家に着いたら、電話するよ。"],
+["文 when 文 / When 文, 文","～するとき","Call me when you get home.","家に着いたら電話して。"],
+["文 because 文 / Because 文, 文","～だから／～なので","I stayed home because it was raining.","雨が降っていたので家にいた。"],
+["文 until / till 文","～するまで","I'll wait until you come back.","あなたが戻るまで待つよ。"],
+["文 if 文 / If 文, 文","もし～なら","If it rains, I'll stay home.","もし雨が降ったら、家にいるよ。"],
+["I would do if 過去形 / If 過去形, I would do","もし～なら、～するのに","If I had more time, I would travel.","もっと時間があれば、旅行するのに。"],
+["I would say (that) 文","～だと思う／～と言えるかな","I would say it's pretty good.","かなりいいと思うよ。"],
+["I would do","～するだろう／～するのにな","I would choose this one.","私ならこれを選ぶよ。"],
+["let A do","Aに～させる","Let me help you.","私に手伝わせて。"],
+["make A do / 形容詞 / 過去分詞","Aに～させる／Aを～の状態にする","That movie made me cry.","その映画を見て泣いた。"],
+["have A do / 形容詞 / 過去分詞 / doing","Aに～してもらう／Aを～の状態にする","I'll have him call you.","彼にあなたへ電話してもらいます。"],
+["get A to do / 形容詞 / 過去分詞 / doing","Aに～してもらう／Aを～の状態にする","I got him to help me.","彼に手伝ってもらった。"],
+["see A do / doing / 形容詞 / 過去分詞","Aが～するのを見る／Aが～しているのを見る","I saw him cross the street.","彼が通りを渡るのを見た。"],
+["what + 主語 + 動詞 / 動詞 / is + 形容詞","～すること／もの","I know what you mean.","あなたの言いたいことはわかる。"],
+["A that + (主語) + 動詞","（～する）A","This is the book that I bought.","これは私が買った本です。"],
+["文, which + (主語) + 動詞","～、そしてそれは…／～、そのことは…","He was late, which surprised me.","彼は遅刻した。それには驚いた。"],
+["you know","ほら／あのさ／わかるでしょ","It's hard, you know.","難しいんだよ、わかるでしょ。"],
+["like","～みたいな／例えば","I like sports, like baseball.","野球みたいなスポーツが好きです。"],
+["It’s like + 名詞 / , 文","～みたいなもの／なんていうか～","It's like a dream.","夢みたいだ。"],
+["I’m like, 文","私は「～」って感じで／「～」って思って","I'm like, \"No way!\"","私は「まさか！」って感じだった。"],
+["I mean, 文","つまり／というか／要するに","I mean, it's not that bad.","つまり、そこまで悪くないよ。"]
+];
+
+let order=[...Array(35).keys()];
+let pos=0;
+let revealed=false;
+
+let learned=new Set(
+ JSON.parse(localStorage.getItem("e35learned")||"[]")
+);
+
+let qc=Number(localStorage.getItem("e35qc")||0);
+let qt=Number(localStorage.getItem("e35qt")||0);
+
+let qa=0;
+let locked=false;
+
+const $=x=>document.getElementById(x);
+
+function stats(){
+ $("learned").textContent=learned.size;
+ $("remain").textContent=35-learned.size;
+
+ let p=Math.round(learned.size/35*100);
+
+ $("rate").textContent=p+"%";
+ $("bar").style.width=p+"%";
+}
+
+function render(){
+
+ let i=order[pos];
+ let d=$("direction").value;
+
+ revealed=false;
+
+ $("count").textContent=
+ (pos+1)+" / 35"+(learned.has(i)?" ・ 習得済み":"");
+
+ $("question").textContent=
+ d==="en-ja"?cards[i][0]:cards[i][1];
+
+ $("example").textContent=
+ d==="en-ja"?cards[i][2]:cards[i][3];
+
+ $("answer").textContent=
+ d==="en-ja"?cards[i][1]:cards[i][0];
+
+ $("answerExample").textContent=
+ d==="en-ja"?cards[i][3]:cards[i][2];
+
+ $("answerBox").classList.remove("show");
+ $("rhythm").textContent="答えを見る";
+ $("judge").style.display="none";
+}
+
+function rhythm(){
+
+ if(!revealed){
+
+  revealed=true;
+
+  $("answerBox").classList.add("show");
+  $("rhythm").textContent="次へ →";
+  $("judge").style.display="grid";
+
+ }else{
+
+  next();
+
+ }
+}
+
+function next(){
+ pos=(pos+1)%35;
+ render();
+}
+
+function prev(){
+ pos=(pos+34)%35;
+ render();
+}
+
+function shuffle(){
+
+ for(let i=34;i>0;i--){
+
+  let j=Math.floor(Math.random()*(i+1));
+
+  [order[i],order[j]]=[order[j],order[i]];
+
+ }
+
+ pos=0;
+ render();
+}
+
+function mark(v){
+
+ let i=order[pos];
+
+ if(v){
+  learned.add(i);
+ }else{
+  learned.delete(i);
+ }
+
+ localStorage.setItem(
+  "e35learned",
+  JSON.stringify([...learned])
+ );
+
+ stats();
+}
+
+function speak(i){
+
+ if(!("speechSynthesis" in window)) return;
+
+ let u=new SpeechSynthesisUtterance(cards[i][2]);
+
+ u.lang="en-US";
+
+ speechSynthesis.cancel();
+ speechSynthesis.speak(u);
+}
+
+function quiz(){
+
+ locked=false;
+
+ qa=Math.floor(Math.random()*35);
+
+ let d=$("direction").value;
+
+ $("quizQuestion").textContent=
+ d==="en-ja"?cards[qa][0]:cards[qa][1];
+
+ $("quizExample").textContent=
+ d==="en-ja"?cards[qa][2]:cards[qa][3];
+
+ $("quizCount").textContent=
+ "4択 ・ "+(d==="en-ja"?"英語 → 日本語":"日本語 → 英語");
+
+ let p=[...Array(35).keys()]
+ .filter(x=>x!==qa)
+ .sort(()=>Math.random()-.5);
+
+ let o=[qa,...p.slice(0,3)]
+ .sort(()=>Math.random()-.5);
+
+ $("choices").innerHTML="";
+
+ o.forEach(i=>{
+
+  let b=document.createElement("button");
+
+  b.className="choice";
+
+  b.textContent=
+  d==="en-ja"?cards[i][1]:cards[i][0];
+
+  b.onclick=()=>check(i,b);
+
+  $("choices").appendChild(b);
+
+ });
+
+ score();
+}
+
+function check(i,b){
+
+ if(locked)return;
+
+ locked=true;
+ qt++;
+
+ if(i===qa){
+
+  qc++;
+
+  b.classList.add("correct");
+
+  learned.add(i);
+
+  localStorage.setItem(
+   "e35learned",
+   JSON.stringify([...learned])
+  );
+
+  stats();
+
+ }else{
+
+  b.classList.add("wrong");
+
+  [...$("choices").children].forEach(x=>{
+
+   let c=
+   $("direction").value==="en-ja"
+   ?cards[qa][1]
+   :cards[qa][0];
+
+   if(x.textContent===c){
+    x.classList.add("correct");
+   }
+
+  });
+
+ }
+
+ localStorage.setItem("e35qc",qc);
+ localStorage.setItem("e35qt",qt);
+
+ score();
+}
+
+function score(){
+
+ $("quizScore").textContent=
+ "クイズ成績："+qc+" / "+qt+" 正解"+
+ (qt?"（"+Math.round(qc/qt*100)+"%）":"");
+
+}
+
+$("rhythm").onclick=rhythm;
+$("prev").onclick=prev;
+$("shuffle").onclick=shuffle;
+
+$("know").onclick=()=>mark(true);
+$("again").onclick=()=>mark(false);
+
+$("direction").onchange=()=>{
+
+ render();
+
+ if($("quiz").style.display==="block"){
+  quiz();
+ }
+
+};
+
+$("speak").onclick=()=>speak(order[pos]);
+$("quizSpeak").onclick=()=>speak(qa);
+
+$("flashTab").onclick=()=>{
+
+ $("flash").style.display="block";
+ $("quiz").style.display="none";
+
+ $("flashTab").classList.add("active");
+ $("quizTab").classList.remove("active");
+
+};
+
+$("quizTab").onclick=()=>{
+
+ $("flash").style.display="none";
+ $("quiz").style.display="block";
+
+ $("quizTab").classList.add("active");
+ $("flashTab").classList.remove("active");
+
+ quiz();
+
+};
+
+$("newQuiz").onclick=quiz;
+
+stats();
+render();
+score();
+
+</script>
+</body>
+</html>
